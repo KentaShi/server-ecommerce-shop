@@ -9,8 +9,12 @@ const mongoose = require("mongoose")
 
 const PORT = process.env.PORT || 5000
 
+const conversationRouter = require("./src/routers/conversation.router")
+const messageRouter = require("./src/routers/message.router")
+
 dotenv.config()
 app.use(cors({ origin: "*" }))
+app.use(express.json())
 
 //connect mongodb
 mongoose
@@ -22,6 +26,9 @@ mongoose
         console.log("connected to MongoDB")
     })
     .catch((err) => console.log("MongoDB error ", err))
+
+app.use("/api/conversations", conversationRouter)
+app.use("/api/messages", messageRouter)
 
 server.listen(PORT, () => {
     console.log("Server Chat is listening on port " + PORT)

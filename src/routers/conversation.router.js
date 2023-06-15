@@ -3,14 +3,22 @@ const Conversation = require("../models/conversation.model")
 
 //create a new conversation
 router.post("/", async (req, res) => {
-    const newConversation = new Conversation({
-        members: [req.body.sender, req.body.receiver],
-    })
-    try {
-        const savedConversation = await newConversation.save()
-        return res.status(200).json(savedConversation)
-    } catch (error) {
-        return res.status(500).json({ error: error.message })
+    const sender = req.body.sender
+    const receiver = req.body.receiver
+    if (sender || receiver) {
+        const newConversation = new Conversation({
+            members: [req.body.sender, req.body.receiver],
+        })
+        try {
+            const savedConversation = await newConversation.save()
+            return res.status(200).json(savedConversation)
+        } catch (error) {
+            return res.status(500).json({ error: error.message })
+        }
+    } else {
+        return res
+            .status(500)
+            .json({ error: "Missing sender id or receiver id" })
     }
 })
 
@@ -40,3 +48,5 @@ router.get("/find/:firstUserID/:secondUserID", async (req, res) => {
         return res.status(500).json({ error: error.message })
     }
 })
+
+module.exports = router

@@ -5,7 +5,7 @@ const Message = require("../models/message.model")
 router.post("/", async (req, res) => {
     const newMessage = new Message(req.body)
     try {
-        const savedMessage = await newMessage()
+        const savedMessage = await newMessage.save()
         return res.status(200).json(savedMessage)
     } catch (error) {
         return res.status(500).json({ error: error.message })
@@ -23,3 +23,5 @@ router.get("/:conversationID", async (req, res) => {
         return res.status(500).json({ error: error.message })
     }
 })
+
+module.exports = router

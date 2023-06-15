@@ -12,9 +12,6 @@ const message = new mongoose.Schema(
         sender: {
             type: String,
         },
-        receiver: {
-            type: String,
-        },
     },
     { timestamps: true }
 )
